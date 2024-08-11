@@ -416,6 +416,8 @@ package Z3 is  --  GCOV_EXCL_LINE
 
    function Number_Of_Sorts (Model : Z3.Model) return Natural;
 
+   function Number_Of_Functions (Model : Z3.Model) return Natural;
+
    --  Optimize(r)
    type Optimize is new Ada.Finalization.Controlled with private;
 
