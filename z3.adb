@@ -806,8 +806,17 @@ is
 
    function Get_Model (Solver : in Z3.Solver'Class) return Model
    is
+      Model : constant Z3.Model := Z3.Model'
+        (
+         Ada.Finalization.Controlled with
+           Data =>
+              z3_api_h.Z3_solver_get_model (Solver.Context.Data, Solver.Data),
+           Context => Z3.Context (Solver.Context)
+        );
    begin
-      return Create (Solver.Context);
+      z3_api_h.Z3_model_inc_ref (c => Model.Context.Data,
+                                 m => Model.Data);
+      return Model;
    end;
 
    function Number_Of_Constants (Model : Z3.Model) return Natural
