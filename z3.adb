@@ -803,6 +803,26 @@ is
 
    ------------------------------------------------------------------------------------------------
 
+   overriding
+   procedure Adjust (F : in out Function_Declaration)
+   is
+      use Z3_api_h;
+   begin
+      Z3_inc_ref (c => F.Context.Data, a => Z3_func_decl_to_ast (F.Context.Data, F.Data));
+   end Adjust;
+
+   ------------------------------------------------------------------------------------------------
+
+   overriding
+   procedure Finalize (F : in out Function_Declaration)
+   is
+      use Z3_api_h;
+   begin
+      Z3_dec_ref (c => F.Context.Data, a => Z3_func_decl_to_ast (F.Context.Data, F.Data));
+   end Finalize;
+
+   ------------------------------------------------------------------------------------------------
+
    function Initialized (Optimize : Z3.Optimize) return Boolean
    is
       use type z3_api_h.Z3_optimize;
@@ -865,6 +885,31 @@ is
          z3_api_h.Z3_model_get_num_funcs (Model.Context.Data, Model.Data)
         );
    end Number_Of_Functions;
+
+   function Get_Constant
+     (
+      Model : in Z3.Model'Class;
+      Index : Natural
+     ) return Z3.Function_Declaration
+   is
+      Const : Function_Declaration := Z3.Function_Declaration'
+        (
+         Ada.Finalization.Controlled with
+           Data =>
+               z3_api_h.Z3_model_get_const_decl
+                   (
+                    Model.Context.Data,
+                    Model.Data,
+                    Interfaces.C.unsigned (Index)
+                   ),
+           Context => Z3.Context (Model.Context)
+        );
+   begin
+      z3_api_h.Z3_inc_ref (c => Const.Context.Data,
+                           a => z3_api_h.Z3_func_decl_to_ast
+                             (Const.Context.Data, Const.Data));
+      return Const;
+   end;
 
    ------------------------------------------------------------------------------------------------
 

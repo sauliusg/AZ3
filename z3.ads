@@ -404,6 +404,12 @@ package Z3 is  --  GCOV_EXCL_LINE
       Pre  => Initialized (Solver),
       Post => Initialized (Solver);
 
+   --  AST
+   type AST is new Ada.Finalization.Controlled with private;
+
+   --  Function_Declaration
+   type Function_Declaration is new Ada.Finalization.Controlled with private;
+
    --  Model
    type Model is new Ada.Finalization.Controlled with private;
 
@@ -417,8 +423,11 @@ package Z3 is  --  GCOV_EXCL_LINE
 
    function Number_Of_Functions (Model : Z3.Model) return Natural;
 
-   --  AST
-   type AST is new Ada.Finalization.Controlled with private;
+   function Get_Constant
+     (
+      Model : in Z3.Model'Class;
+      Index : Natural
+     ) return Z3.Function_Declaration;
 
    --  Optimize(r)
    type Optimize is new Ada.Finalization.Controlled with private;
@@ -608,6 +617,19 @@ private
 
    overriding
    procedure Finalize (AST : in out Z3.AST);
+
+   -- -------------------------------------------------------------------------
+
+   type Function_Declaration is new Ada.Finalization.Controlled with record
+       Context : Z3.Context;
+       Data : z3_api_h.Z3_func_decl;
+   end record;
+
+   overriding
+   procedure Adjust (F : in out Function_Declaration);
+
+   overriding
+   procedure Finalize (F : in out Function_Declaration);
 
    -- -------------------------------------------------------------------------
 
