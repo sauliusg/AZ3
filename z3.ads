@@ -408,6 +408,8 @@ package Z3 is  --  GCOV_EXCL_LINE
    --  Model
    type Model is new Ada.Finalization.Controlled with private;
 
+   function Create (Context : Z3.Context'Class) return Model;
+
    --  Optimize(r)
    type Optimize is new Ada.Finalization.Controlled with private;
 

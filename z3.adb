@@ -790,6 +790,20 @@ is
       return Optimize.Data /= null;
    end Initialized;
 
+   function Create (Context : Z3.Context'Class) return Model
+   is
+      Model : constant Z3.Model := Z3.Model'
+        (
+         Ada.Finalization.Controlled with Data =>
+           z3_api_h.Z3_mk_model (Context.Data),
+         Context => Z3.Context (Context)
+        );
+   begin
+      z3_api_h.Z3_model_inc_ref (c => Model.Context.Data,
+                                 m => Model.Data);
+      return Model;
+   end Create;
+
    ------------------------------------------------------------------------------------------------
 
    function Create (Context : Z3.Context'Class) return Optimize
