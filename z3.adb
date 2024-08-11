@@ -763,6 +763,26 @@ is
 
    ------------------------------------------------------------------------------------------------
 
+   overriding
+   procedure Adjust (M : in out Model)
+   is
+   begin
+      z3_api_h.Z3_model_inc_ref (c => M.Context.Data,
+                                 m => M.Data);
+   end Adjust;
+
+   ------------------------------------------------------------------------------------------------
+
+   overriding
+   procedure Finalize (M : in out Model)
+   is
+   begin
+      z3_api_h.Z3_model_dec_ref (c => M.Context.Data,
+                                 m => M.Data);
+   end Finalize;
+
+   ------------------------------------------------------------------------------------------------
+
    function Initialized (Optimize : Z3.Optimize) return Boolean
    is
       use type z3_api_h.Z3_optimize;

@@ -578,6 +578,12 @@ private
        Data : z3_api_h.Z3_model;
    end record;
 
+   overriding
+   procedure Adjust (M : in out Model);
+
+   overriding
+   procedure Finalize (M : in out Model);
+
    -- -------------------------------------------------------------------------
 
    type Optimize is new Ada.Finalization.Controlled with record
