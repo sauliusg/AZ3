@@ -410,6 +410,8 @@ package Z3 is  --  GCOV_EXCL_LINE
 
    function Create (Context : Z3.Context'Class) return Model;
 
+   function Get_Model (Solver : in Z3.Solver'Class) return Model;
+
    --  Optimize(r)
    type Optimize is new Ada.Finalization.Controlled with private;
 

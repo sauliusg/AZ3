@@ -804,6 +804,12 @@ is
       return Model;
    end Create;
 
+   function Get_Model (Solver : in Z3.Solver'Class) return Model
+   is
+   begin
+      return Create (Solver.Context);
+   end;
+
    ------------------------------------------------------------------------------------------------
 
    function Create (Context : Z3.Context'Class) return Optimize
