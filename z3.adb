@@ -819,6 +819,15 @@ is
         );
    end Number_Of_Constants;
 
+   function Number_Of_Sorts (Model : Z3.Model) return Natural
+   is
+   begin
+      return Natural
+        (
+         z3_api_h.Z3_model_get_num_sorts (Model.Context.Data, Model.Data)
+        );
+   end Number_Of_Sorts;
+
    ------------------------------------------------------------------------------------------------
 
    function Create (Context : Z3.Context'Class) return Optimize
