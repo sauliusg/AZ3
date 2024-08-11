@@ -405,6 +405,10 @@ package Z3 is  --  GCOV_EXCL_LINE
       Pre  => Initialized (Solver),
       Post => Initialized (Solver);
 
+   --  Model
+   type Model is new Ada.Finalization.Controlled with private;
+
+   --  Optimize(r)
    type Optimize is new Ada.Finalization.Controlled with private;
 
    function Initialized (Optimize : Z3.Optimize) return Boolean;
@@ -566,6 +570,15 @@ private
    use type Interfaces.C.unsigned;
    package Int_Maps is new Ada.Containers.Indefinite_Hashed_Maps
       (Z3.Arith_Type'Class, Objective_Data, Hash, "=");
+
+   -- -------------------------------------------------------------------------
+
+   type Model is new Ada.Finalization.Controlled with record
+       Context : Z3.Context;
+       Data : z3_api_h.Z3_model;
+   end record;
+
+   -- -------------------------------------------------------------------------
 
    type Optimize is new Ada.Finalization.Controlled with record
       Data               : z3_api_h.Z3_optimize;
