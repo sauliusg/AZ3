@@ -228,6 +228,8 @@ package Z3 is  --  GCOV_EXCL_LINE
 
    function "-" (Value : Int_Type) return Int_Type;
 
+   function "-" (Val : Real_Type) return Real_Type;
+
    function "<" (Left : Int_Type'Class; Right : Int_Type'Class) return Bool_Type with
       Pre => Same_Context (Left, Right);
 

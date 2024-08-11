@@ -454,6 +454,16 @@ is
 
    ------------------------------------------------------------------------------------------------
 
+   function "-" (Val : Real_Type) return Real_Type
+   is
+   begin
+      return (Data    => z3_api_h.Z3_mk_unary_minus (c   => Val.Context.Data,
+                                                     arg => Val.Data),
+              Context => Val.Context);
+   end "-";
+
+   ------------------------------------------------------------------------------------------------
+
    function "<" (Left : Int_Type'Class; Right : Int_Type'Class) return Bool_Type
    is
    begin
