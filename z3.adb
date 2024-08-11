@@ -783,6 +783,26 @@ is
 
    ------------------------------------------------------------------------------------------------
 
+   overriding
+   procedure Adjust (AST : in out Z3.AST)
+   is
+   begin
+      z3_api_h.Z3_inc_ref (c => AST.Context.Data,
+                           a => AST.Data);
+   end Adjust;
+
+   ------------------------------------------------------------------------------------------------
+
+   overriding
+   procedure Finalize (AST : in out Z3.AST)
+   is
+   begin
+      z3_api_h.Z3_dec_ref (c => AST.Context.Data,
+                           a => AST.Data);
+   end Finalize;
+
+   ------------------------------------------------------------------------------------------------
+
    function Initialized (Optimize : Z3.Optimize) return Boolean
    is
       use type z3_api_h.Z3_optimize;

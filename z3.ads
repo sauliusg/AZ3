@@ -129,7 +129,6 @@ package Z3 is  --  GCOV_EXCL_LINE
    type Arith_Type is new Expr_Type with private;
 
    --  Real expressions
-
    type Real_Type is new Arith_Type with private;
    type Real_Array is array (Natural range <>) of Real_Type;
 
@@ -418,6 +417,9 @@ package Z3 is  --  GCOV_EXCL_LINE
 
    function Number_Of_Functions (Model : Z3.Model) return Natural;
 
+   --  AST
+   type AST is new Ada.Finalization.Controlled with private;
+
    --  Optimize(r)
    type Optimize is new Ada.Finalization.Controlled with private;
 
@@ -593,6 +595,19 @@ private
 
    overriding
    procedure Finalize (M : in out Model);
+
+   -- -------------------------------------------------------------------------
+
+   type AST is new Ada.Finalization.Controlled with record
+       Context : Z3.Context;
+       Data : z3_api_h.Z3_ast;
+   end record;
+
+   overriding
+   procedure Adjust (AST : in out Z3.AST);
+
+   overriding
+   procedure Finalize (AST : in out Z3.AST);
 
    -- -------------------------------------------------------------------------
 
