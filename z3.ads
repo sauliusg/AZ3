@@ -407,8 +407,12 @@ package Z3 is  --  GCOV_EXCL_LINE
    --  AST
    type AST is new Ada.Finalization.Controlled with private;
 
+   function To_String (AST : Z3.Ast) return String;
+
    --  Function_Declaration
    type Function_Declaration is new Ada.Finalization.Controlled with private;
+
+   function To_String (F : Z3.Function_Declaration) return String;
 
    --  Model
    type Model is new Ada.Finalization.Controlled with private;
@@ -416,6 +420,8 @@ package Z3 is  --  GCOV_EXCL_LINE
    function Create (Context : Z3.Context'Class) return Model;
 
    function Get_Model (Solver : in Z3.Solver'Class) return Model;
+
+   function To_String (Model : Z3.Model) return String;
 
    function Number_Of_Constants (Model : Z3.Model) return Natural;
 

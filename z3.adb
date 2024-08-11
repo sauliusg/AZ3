@@ -803,6 +803,16 @@ is
 
    ------------------------------------------------------------------------------------------------
 
+   function To_String (AST : Z3.AST) return String
+   is
+      use Z3_api_h;
+      S : Z3_string := Z3_ast_to_string (AST.Context.Data, AST.Data);
+   begin
+      return Value (S);
+   end;
+
+   ------------------------------------------------------------------------------------------------
+
    overriding
    procedure Adjust (F : in out Function_Declaration)
    is
@@ -820,6 +830,16 @@ is
    begin
       Z3_dec_ref (c => F.Context.Data, a => Z3_func_decl_to_ast (F.Context.Data, F.Data));
    end Finalize;
+
+   ------------------------------------------------------------------------------------------------
+
+   function To_String (F : Z3.Function_Declaration) return String
+   is
+      use Z3_api_h;
+      S : Z3_string := Z3_func_decl_to_String (F.Context.Data, F.Data);
+   begin
+      return Value (S);
+   end;
 
    ------------------------------------------------------------------------------------------------
 
@@ -857,6 +877,14 @@ is
       z3_api_h.Z3_model_inc_ref (c => Model.Context.Data,
                                  m => Model.Data);
       return Model;
+   end;
+
+   function To_String (Model : Z3.Model) return String
+   is
+      use Z3_api_h;
+      S : Z3_string := Z3_Model_To_String (Model.Context.Data, Model.Data);
+   begin
+      return Value (S);
    end;
 
    function Number_Of_Constants (Model : Z3.Model) return Natural
