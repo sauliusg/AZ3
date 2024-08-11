@@ -412,6 +412,8 @@ package Z3 is  --  GCOV_EXCL_LINE
 
    function Get_Model (Solver : in Z3.Solver'Class) return Model;
 
+   function Number_Of_Constants (Model : Z3.Model) return Natural;
+
    --  Optimize(r)
    type Optimize is new Ada.Finalization.Controlled with private;
 

@@ -810,6 +810,15 @@ is
       return Create (Solver.Context);
    end;
 
+   function Number_Of_Constants (Model : Z3.Model) return Natural
+   is
+   begin
+      return Natural
+        (
+         z3_api_h.Z3_model_get_num_consts (Model.Context.Data, Model.Data)
+        );
+   end Number_Of_Constants;
+
    ------------------------------------------------------------------------------------------------
 
    function Create (Context : Z3.Context'Class) return Optimize
