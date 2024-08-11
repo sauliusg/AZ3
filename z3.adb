@@ -334,7 +334,22 @@ is
 
    ------------------------------------------------------------------------------------------------
 
+   function Add_Instance_Real is new Z3_Multi_Op (z3_api_h.Z3_mk_add, Real_Type, Real_Array);
+
+   function Add (Values : Real_Array) return Real_Type is
+      (Real (Add_Instance_Real (Values)));
+
+   ------------------------------------------------------------------------------------------------
+
    function "+" (Left : Int_Type; Right : Int_Type) return Int_Type
+   is
+   begin
+      return Add ((Left, Right));
+   end "+";
+
+   ------------------------------------------------------------------------------------------------
+
+   function "+" (Left : Real_Type; Right : Real_Type) return Real_Type
    is
    begin
       return Add ((Left, Right));
@@ -349,7 +364,22 @@ is
 
    ------------------------------------------------------------------------------------------------
 
+   function Mul_Instance_Real is new Z3_Multi_Op (z3_api_h.Z3_mk_mul, Real_Type, Real_Array);
+
+   function Mul (Values : Real_Array) return Real_Type is
+      (Real (Mul_Instance_Real (Values)));
+
+   ------------------------------------------------------------------------------------------------
+
    function "*" (Left : Int_Type; Right : Int_Type) return Int_Type
+   is
+   begin
+      return Mul ((Left, Right));
+   end "*";
+
+   ------------------------------------------------------------------------------------------------
+
+   function "*" (Left : Real_Type; Right : Real_Type) return Real_Type
    is
    begin
       return Mul ((Left, Right));
@@ -361,6 +391,17 @@ is
    is
       type Int_Array is array (1 .. 2) of z3_api_h.Z3_ast;
       Args : constant Int_Array := (Left.Data, Right.Data);
+   begin
+      return (Data    => z3_api_h.Z3_mk_sub (c        => Left.Context.Data,
+                                             num_args => Args'Length,
+                                             args     => Args'Address),
+              Context => Left.Context);
+   end "-";
+
+   function "-" (Left : Real_Type; Right : Real_Type) return Real_Type
+   is
+      type Real_Array is array (1 .. 2) of z3_api_h.Z3_ast;
+      Args : constant Real_Array := (Left.Data, Right.Data);
    begin
       return (Data    => z3_api_h.Z3_mk_sub (c        => Left.Context.Data,
                                              num_args => Args'Length,

@@ -131,6 +131,8 @@ package Z3 is  --  GCOV_EXCL_LINE
    --  Real expressions
 
    type Real_Type is new Arith_Type with private;
+   type Real_Array is array (Natural range <>) of Real_Type;
+
    function Real (Name    : String;
                   Context : Z3.Context'Class) return Real_Type;
    function Real (Numerator : Integer;
@@ -198,7 +200,13 @@ package Z3 is  --  GCOV_EXCL_LINE
    function "+" (Left : Int_Type; Right : Int_Type) return Int_Type with
       Pre => Same_Context (Left, Right);
 
+   function "+" (Left : Real_Type; Right : Real_Type) return Real_Type with
+      Pre => Same_Context (Left, Right);
+
    function "-" (Left : Int_Type; Right : Int_Type) return Int_Type with
+      Pre => Same_Context (Left, Right);
+
+   function "-" (Left : Real_Type; Right : Real_Type) return Real_Type with
       Pre => Same_Context (Left, Right);
 
    function Mul (Values : Int_Array) return Int_Type with
@@ -206,6 +214,9 @@ package Z3 is  --  GCOV_EXCL_LINE
 
    function "*" (Left : Int_Type; Right : Int_Type) return Int_Type with
       Pre => Same_Context (Left, Right);
+
+   function "*" (Left : Real_Type; Right : Real_Type) return Real_Type with
+     Pre => Same_Context (Left, Right);
 
    function "/" (Left : Int_Type; Right : Int_Type) return Int_Type with
       Pre => Same_Context (Left, Right);
